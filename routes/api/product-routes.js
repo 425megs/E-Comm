@@ -4,12 +4,10 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 // The `/api/products` endpoint
 
 // get all products  
-// find all products
-// be sure to include its associated Category and Tag data
 router.get('/', async (req, res) => {
   try {
     const productData = await Product.findAll({
-      include: [{ model: Category }, {model: Tag}],
+      include: [ Category , Tag],
     });
     res.status(200).json(productData);
   } catch (err) {
@@ -17,13 +15,11 @@ router.get('/', async (req, res) => {
   }
 });
 
-// get one product  
-// find a single product by its `id`
-// be sure to include its associated Category and Tag data
+// get product by id - WORKING BUT THROWING ERROR MSG
 router.get('/:id', async (req, res) => {
   try {
     const productData = await Product.findByPk(req.params.id, {
-      include: [{ model: Product }, { model: Tag }],
+      include: [ Product , Tag ],
     });
 
     if (!productData) {
@@ -34,10 +30,9 @@ router.get('/:id', async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-
 });
 
-// create new product
+// WORKING BUT THROWING ERROR MSG
 router.post('/', (req, res) => {
   /* req.body should look like this...
     {
@@ -69,7 +64,7 @@ router.post('/', (req, res) => {
     });
 });
 
-// update product
+// update product -- NOT WORKING
 router.put('/:id', (req, res) => {
   // update product data
   Product.update(req.body, {
@@ -106,12 +101,11 @@ router.put('/:id', (req, res) => {
     })
     .then((updatedProductTags) => res.json(updatedProductTags))
     .catch((err) => {
-      // console.log(err);
       res.status(400).json(err);
     });
 });
 
-  // delete one product by its `id` value
+  // GIVING AN ERROR BUT DELETING ID
 router.delete('/:id', async (req, res) => {
   try {
     const productData = await Product.destroy({
