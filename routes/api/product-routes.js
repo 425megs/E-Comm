@@ -15,11 +15,11 @@ router.get('/', async (req, res) => {
   }
 });
 
-// get product by id - NOT WORKING
+// get product by id
 router.get('/:id', async (req, res) => {
   try {
     const productData = await Product.findByPk(req.params.id, {
-      include: [ Product , Tag ],
+      include: [ Category , Tag ],
     });
 
     if (!productData) {
@@ -32,7 +32,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// WORKING BUT THROWING ERROR MSG
+// Adding new product
 router.post('/', (req, res) => {
   /* req.body should look like this...
     {
@@ -105,7 +105,7 @@ router.put('/:id', (req, res) => {
     });
 });
 
-// WORKING BUT THROWING ERROR MSG
+// deleting by id
 router.delete('/:id', async (req, res) => {
   try {
     const productData = await Product.destroy({
@@ -114,13 +114,14 @@ router.delete('/:id', async (req, res) => {
       },
     });
 
-    if (!productdData) {
+    if (!productData) {
       res.status(404).json({ message: 'No product found with that id!' });
       return;
     }
 
     res.status(200).json(productData);
   } catch (err) {
+    console.log(err)
     res.status(500).json(err);
   }
 });

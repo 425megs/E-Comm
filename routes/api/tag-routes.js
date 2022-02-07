@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { Tag, Product } = require('../../models');
 
-// The `/api/tags` endpoint -- ALL ROUTES WORKING
+// The `/api/tags` endpoint
 
 // find all tags
 router.get('/', async (req, res) => {
